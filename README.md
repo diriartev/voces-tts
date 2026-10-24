@@ -157,14 +157,9 @@ GitHub repite todo el CI y **espera tu aprobación** (Actions → *Review deploy
 └── *.sh                     # iniciar / detener / estado / descargar_modelos
 ```
 
-## 📦 Para el mantenedor: publicar los modelos
+## 📦 Releases Modelos
 
 Los modelos pesan demasiado para guardarlos en git (GitHub limita a 100 MB por archivo), así que van como archivos de un **Release**:
-
-1. En el repo: **Releases → Create a new release**, con el tag `modelos-v1` (el script descarga siempre de esa etiqueta, no de "latest").
-2. Arrastra `spiderman_tobey.zip` y `spiderman_ps4.zip` y pulsa **Publish release**.
-
-Si cambias o añades un modelo, súbelo como `<carpeta>.zip` en un Release nuevo y añade su línea a `modelos_rvc/checksums.sha256` con `sha256sum <carpeta>.zip`.
 
 ## ⚖️ Aviso
 
