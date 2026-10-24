@@ -1,6 +1,6 @@
 # 🎙️ Voces TTS — Generador de Voz en Español + Voces Clonadas (RVC)
 
-Generador de voces en español con interfaz web. Trae voces neuronales normales y **voces clonadas con RVC** (incluye Spider-Man de Tobey Maguire y de PS4), todo dentro de un contenedor Docker endurecido. Se instala con **un solo comando**.
+Generador de voces en español con interfaz web. Trae voces neuronales normales y **voces clonadas con RVC**, todo dentro de un contenedor Docker endurecido. Se instala con **un solo comando**.
 
 | Voz | Tipo | Tiempo aprox. |
 | --- | --- | --- |
@@ -8,8 +8,6 @@ Generador de voces en español con interfaz web. Trae voces neuronales normales 
 | 🎙️ Narrador Latino Neutro | Natural, estilo documental | ~1–2 s |
 | 🇨🇴 Narrador Colombiano | Cálida y nítida | ~1–2 s |
 | 🇪🇸 Narrador España | Castellano moderno | ~1–2 s |
-| 🕷️ Spider-Man (Tobey Maguire) | Clonada con RVC | ~5–25 s (CPU) |
-| 🕷️ Spider-Man (PS4) | Clonada con RVC | ~5–25 s (CPU) |
 
 - ⏩ Control de velocidad y nombre personalizado del archivo
 - 📂 Cargar texto desde cualquier `.txt`
@@ -46,7 +44,7 @@ cd voces-tts
 bash iniciar.sh
 ```
 
-El paquete `voces-tts-con-modelos.zip` ya trae dentro los zips de los modelos (`spiderman_tobey.zip`, `spiderman_ps4.zip`) y los instala sin internet. Si tienes la versión sin modelos, copia esos dos zips en la carpeta `voces-tts/`, junto a `iniciar.sh`. Si faltan, las voces normales funcionan igual.
+El paquete `voces-tts-con-modelos.zip` ya trae dentro los zips de los modelos y los instala sin internet. Si tienes la versión sin modelos, copia esos zips en la carpeta `voces-tts/`, junto a `iniciar.sh`. Si faltan, las voces normales funcionan igual.
 
 ## 🛠️ Comandos
 
@@ -70,7 +68,7 @@ Configuración: el `.env` se crea en el primer arranque (puerto, núcleos de CPU
 | `permission denied ... docker.sock` | `sudo usermod -aG docker $USER` y cierra/abre sesión (o deja que el script use sudo) |
 | `docker: 'compose' is not a docker command` | `sudo apt install docker-compose-plugin` (o `docker-compose-v2`) |
 | `port is already allocated` | Cambia `PORT=` en `.env` |
-| No salen las voces de Spider-Man | `bash descargar_modelos.sh` y mira el error; luego `bash detener.sh && bash iniciar.sh` |
+| No salen las voces RVC | `bash descargar_modelos.sh` y mira el error; luego `bash detener.sh && bash iniciar.sh` |
 | La voz RVC tarda mucho | Normal en CPU (~5–25 s; la primera vez tarda más porque carga el motor). Sube `CPUS=` en `.env` |
 
 ## 🛡️ Seguridad
@@ -92,13 +90,13 @@ Configuración: el `.env` se crea en el primer arranque (puerto, núcleos de CPU
 | --- | --- | --- |
 | GET | `/health` | Estado del servicio y nº de voces RVC |
 | GET | `/api/voices` | Lista de voces |
-| POST | `/api/synthesize` | `{"text": "...", "voice": "rvc-spiderman_tobey", "speed": 1.0, "name": "opcional"}` |
+| POST | `/api/synthesize` | `{"text": "...", "voice": "rvc-mi_voz", "speed": 1.0, "name": "opcional"}` |
 | GET | `/audio/<archivo>.wav` | Reproducir (`?download=1` para descargar) |
 
 ```bash
 curl -s -X POST http://127.0.0.1:5055/api/synthesize \
   -H 'Content-Type: application/json' \
-  -d '{"text":"Un gran poder conlleva una gran responsabilidad","voice":"rvc-spiderman_tobey"}'
+  -d '{"text":"Hola, esta es una prueba de voz","voice":"rvc-mi_voz"}'
 ```
 
 ## 🔄 CI/CD (pruebas y publicación automáticas)
