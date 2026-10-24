@@ -155,9 +155,6 @@ GitHub repite todo el CI y **espera tu aprobación** (Actions → *Review deploy
 └── *.sh                     # iniciar / detener / estado / descargar_modelos
 ```
 
-## 📦 Releases Modelos
-
-Los modelos pesan demasiado para guardarlos en git (GitHub limita a 100 MB por archivo), así que van como archivos de un **Release**:
 
 ## ⚖️ Aviso
 
