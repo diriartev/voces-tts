@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎙️ Generador de Voz Español</title>
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --card-bg: #141724;
+      --card-hover: #1c2033;
+      --border: #272c42;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --accent-red: #ef4444;
+      --accent: #a855f7;
+      --success: #22c55e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 30px 16px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 740px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+      font-size: 26px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ef4444, #38bdf8, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 12px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    .badge.accent {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    .badge.ram {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    select, input[type="text"], textarea {
+      width: 100%;
+      background: #0f121d;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    select:focus, input[type="text"]:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    .voice-desc {
+      font-size: 12px;
+      color: #38bdf8;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: rgba(56, 189, 248, 0.08);
+      border-radius: 6px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: var(--card-hover);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: var(--border);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #ef4444, #7c3aed);
+      border: none;
+      color: white;
+      width: 100%;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 10px;
+    }
+    .btn-primary:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-download {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .btn-download:hover {
+      opacity: 0.95;
+    }
+
+    /* Slider */
+    .slider-container {
+      background: #0f121d;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .slider-val {
+      color: var(--primary);
+      font-weight: 700;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    /* Result Box */
+    .result-box {
+      background: #0f121d;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 20px;
+      display: none;
+    }
+    .result-box.active {
+      display: block;
+    }
+    audio {
+      width: 100%;
+      margin: 12px 0;
+      border-radius: 8px;
+    }
+
+    #statusMessage {
+      font-size: 13px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-top: 14px;
+      display: none;
+    }
+    #statusMessage.loading {
+      display: block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    #statusMessage.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    #statusMessage.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎙️ Generador de Voz Español</h1>
+      <p>Generador de audio con previsualización directa en memoria RAM</p>
+      <div class="badges">
+        <span class="badge">🎙️ Voz Custom</span>
+        <span class="badge accent">⚡ Audio DSP de Alta Fidelidad</span>
+        <span class="badge ram">🛡️ 0 Guardado Automático (Solo Preview en RAM)</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <!-- Selector de Voz -->
+      <div class="form-group">
+        <label>Voz Seleccionada</label>
+        <select id="voiceSelect" onchange="onVoiceChange()">
+          <!-- Se llena dinámicamente -->
+        </select>
+        <div class="voice-desc" id="voiceDesc">Cargando voz...</div>
+      </div>
+
+      <!-- Texto a narrar -->
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="margin-bottom: 0;">Texto a narrar</label>
+          <div style="display: flex; gap: 6px;">
+            <input type="file" id="txtFileInput" accept=".txt" style="display: none;" onchange="loadAnyTxt(this)">
+            <button class="btn" onclick="document.getElementById('txtFileInput').click()" type="button">
+              📂 Cargar archivo .txt
+            </button>
+          </div>
+        </div>
+        <textarea id="textInput" placeholder="Pega o escribe aquí el texto que deseas generar en español..."></textarea>
+      </div>
+
+      <!-- Control de Velocidad -->
+      <div class="slider-container">
+        <div class="slider-header">
+          <span>Velocidad de Lectura</span>
+          <span class="slider-val" id="speedVal">1.0x (Normal)</span>
+        </div>
+        <input type="range" id="speedSlider" min="0.8" max="1.3" value="1.0" step="0.05" oninput="updateSpeed(this.value)">
+      </div>
+
+      <!-- Nombre de archivo si el usuario decide descargarlo -->
+      <div class="form-group">
+        <label>Nombre del archivo al descargar (Opcional)</label>
+        <input type="text" id="customNameInput" placeholder="Ej: mi_audio_espanol">
+      </div>
+
+      <!-- Botón Generar Preview -->
+      <button class="btn btn-primary" id="generateBtn" onclick="synthesize()">
+        ▶️ Generar y Escuchar Preview
+      </button>
+
+      <div id="statusMessage"></div>
+
+      <!-- Resultado del Audio (Solo Preview en RAM) -->
+      <div class="result-box" id="resultBox">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-size: 14px; color: var(--text);">🎧 Previsualización de Audio:</h3>
+          <span style="font-size: 12px; color: var(--text-muted);">(Cargado en memoria RAM)</span>
+        </div>
+        <audio id="audioPlayer" controls></audio>
+        <div class="btn-row" style="margin-top: 10px;">
+          <a class="btn btn-download" id="downloadBtn" download style="text-decoration: none;">
+            💾 Elegir dónde guardar WAV
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let voicesList = [];
+
+    async function loadVoices() {
+      try {
+        const res = await fetch('/api/voices');
+        const data = await res.json();
+        voicesList = data.voices || [];
+
+        const select = document.getElementById('voiceSelect');
+        select.innerHTML = '';
+
+        voicesList.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.id;
+          opt.textContent = v.name;
+          select.appendChild(opt);
+        });
+
+        select.value = 'voz-custom';
+        onVoiceChange();
+      } catch (e) {
+        console.error("Error cargando voces:", e);
+      }
+    }
+
+    function onVoiceChange() {
+      const select = document.getElementById('voiceSelect');
+      const v = voicesList.find(item => item.id === select.value);
+      if (v) {
+        document.getElementById('voiceDesc').innerText = v.desc;
+      }
+    }
+
+    function updateSpeed(val) {
+      document.getElementById('speedVal').innerText = val + 'x';
+    }
+
+    function loadAnyTxt(input) {
+      if (!input.files || input.files.length === 0) return;
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('textInput').value = e.target.result.trim();
+      };
+      reader.onerror = function() {
+        alert("Error al leer el archivo de texto.");
+      };
+      reader.readAsText(file, "UTF-8");
+      input.value = '';
+    }
+
+    function showStatus(text, type) {
+      const el = document.getElementById('statusMessage');
+      el.className = type;
+      el.innerText = text;
+      el.style.display = 'block';
+    }
+
+    function hideStatus() {
+      const el = document.getElementById('statusMessage');
+      el.style.display = 'none';
+    }
+
+    async function synthesize() {
+      const text = document.getElementById('textInput').value.trim();
+      if (!text) {
+        alert("Por favor ingresa o carga un texto para narrar.");
+        return;
+      }
+
+      const btn = document.getElementById('generateBtn');
+      btn.disabled = true;
+      showStatus("Generando preview de audio en memoria...", "loading");
+
+      const payload = {
+        text: text,
+        voice: document.getElementById('voiceSelect').value,
+        speed: parseFloat(document.getElementById('speedSlider').value),
+        name: document.getElementById('customNameInput').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/synthesize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          hideStatus();
+          const box = document.getElementById('resultBox');
+          const player = document.getElementById('audioPlayer');
+          const dl = document.getElementById('downloadBtn');
+          box.classList.add('active');
+          player.src = data.url;
+          player.play();
+          dl.href = data.download_url;
+          dl.download = data.filename;
+          box.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          showStatus("Error: " + (data.error || "Ocurrió un error"), "error");
+        }
+      } catch (e) {
+        showStatus("Error de conexión: " + e.message, "error");
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadVoices();
+    });
+
+    // Guardar SIEMPRE preguntando dónde (diálogo "Guardar como" del sistema en
+    // Chrome/Edge/Brave/Opera). En Firefox cae a la descarga normal del navegador.
+    document.getElementById('downloadBtn').addEventListener('click', async (ev) => {
+      const dl = ev.currentTarget;
+      if (!window.showSaveFilePicker || !dl.href) return;   // descarga normal
+      ev.preventDefault();
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: dl.download || 'voz.wav',
+          types: [{ description: 'Audio WAV', accept: { 'audio/wav': ['.wav'] } }]
+        });
+        const writable = await handle.createWritable();
+        const res = await fetch(dl.href);
+        if (!res.ok) { await writable.abort(); showStatus("El audio expiró, genéralo de nuevo.", "error"); return; }
+        await res.body.pipeTo(writable);
+        showStatus("✅ Guardado", "success");
+      } catch (e) {
+        if (e.name !== 'AbortError') showStatus("No se pudo guardar: " + e.message, "error");
+      }
+    });
+  </script>
+</body>
+</html>

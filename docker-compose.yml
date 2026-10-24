@@ -1,0 +1,45 @@
+services:
+  voces-tts:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${IMAGE:-voces-tts:hardened}
+    restart: "no"
+
+    # Usuario sin privilegios: tu mismo UID/GID (./iniciar.sh lo pone en .env)
+    user: "${APP_UID:-1000}:${APP_GID:-1000}"
+
+    # Cero capacidades del kernel y sin escalamiento de privilegios
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+    # Sistema de archivos del contenedor inmutable
+    read_only: true
+
+    # Los audios generados viven solo en RAM (se borran al apagar)
+    tmpfs:
+      - /tmp:size=512M,mode=1777,nosuid,nodev
+      - /run:size=16M,mode=1777,nosuid,nodev
+      - /home/appuser/.cache:size=256M,mode=1777,nosuid,nodev
+
+    # Modelos de voz RVC: solo lectura
+    volumes:
+      - ./modelos_rvc:/app/modelos_rvc:ro,z
+
+    # Solo accesible desde tu propio equipo (localhost)
+    ports:
+      - "127.0.0.1:${PORT:-5055}:5055"
+
+    environment:
+      - PORT=5055
+      - PYTHONUNBUFFERED=1
+
+    # RVC necesita bastante RAM/CPU mientras convierte
+    deploy:
+      resources:
+        limits:
+          cpus: "${CPUS:-4.0}"
+          memory: 4G
+          pids: 300

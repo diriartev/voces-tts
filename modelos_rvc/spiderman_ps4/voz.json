@@ -1,0 +1,8 @@
+{
+  "name": "🕷️ Spider-Man (PS4)",
+  "desc": "Voz clonada con RVC. Tarda ~15-30 s en CPU.",
+  "base_voice": "es-MX-JorgeNeural",
+  "f0up_key": 0,
+  "index_rate": 0.6,
+  "protect": 0.33
+}

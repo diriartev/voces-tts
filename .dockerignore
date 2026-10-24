@@ -1,0 +1,12 @@
+.git
+.env
+*.env
+.cache/
+modelos_rvc/
+voces_referencia/
+__pycache__/
+*.md
+*.sh
+*.zip
+.gitignore
+.dockerignore

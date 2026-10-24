@@ -1,0 +1,30 @@
+# Secretos / configuración local
+.env
+*.env
+!.env.example
+
+# Pesos de modelos: van en GitHub Releases, no en git (son muy grandes)
+*.pth
+*.pt
+*.onnx
+*.index
+*.whl
+*.zip
+.cache/
+voces_referencia/
+
+# Audios
+*.wav
+*.mp3
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Sistema / editores
+.DS_Store
+.directory
+*.desktop
+.idea/
+.vscode/
