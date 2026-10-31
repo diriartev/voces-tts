@@ -2,7 +2,7 @@
 # Voces TTS - edge-tts + clonación de voz RVC (CPU)
 # Contenedor endurecido, sin root, filesystem de solo lectura
 # ==============================================================
-FROM python:3.10-slim
+FROM python:3.15-slim
 
 LABEL org.opencontainers.image.title="Voces TTS"
 LABEL org.opencontainers.image.description="Generador de voz en español con edge-tts y voces clonadas RVC"
